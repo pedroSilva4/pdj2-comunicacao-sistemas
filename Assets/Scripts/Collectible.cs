@@ -20,6 +20,9 @@ public class Collectible : MonoBehaviour, IInteractable
             return;
         }
 
-        Debug.LogWarning("TODO: pedir ao ScoreSystem para adicionar pontos e desativar o item.", this);
+        // Marcar ANTES de tudo: evita recolha dupla se o trigger disparar duas vezes
+        collected = true;
+        scoreSystem.AddPoints(points);
+        gameObject.SetActive(false);
     }
 }

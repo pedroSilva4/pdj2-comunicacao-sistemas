@@ -44,3 +44,28 @@
     color: white;
     font-size: 24px;
 }
+
+.victory-panel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+}
+
+.victory-title {
+    font-size: 80px;
+    color: rgb(0, 255, 0);
+    margin: 0px;
+    -unity-text-align: middle-center;
+}
+
+.victory-subtitle {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    margin-top: 30px;
+    -unity-text-align: middle-center;
+}
