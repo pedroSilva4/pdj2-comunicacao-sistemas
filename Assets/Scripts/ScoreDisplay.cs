@@ -1,14 +1,14 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections;
 
 [RequireComponent(typeof(UIDocument))]
 public class ScoreDisplay : MonoBehaviour
 {
     [SerializeField] private ScoreSystem scoreSystem;
-
     private Label scoreLabel;
     private Coroutine initializationRoutine;
+    private bool isSubscribed;
 
     private void OnEnable()
     {
@@ -21,42 +21,32 @@ public class ScoreDisplay : MonoBehaviour
 
         initializationRoutine = StartCoroutine(InitializeWhenReady());
     }
-
-    private IEnumerator InitializeWhenReady()
-    {
+    private IEnumerator InitializeWhenReady(){
         yield return null;
-
-        UIDocument uiDocument = GetComponent<UIDocument>();
-        scoreLabel = uiDocument.rootVisualElement.Q<Label>("score-label");
-        if (scoreLabel == null)
-        {
-            Debug.LogError("Confirma que existe um Label chamado 'score-label' no UXML.", this);
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        scoreLabel = root.Q<Label>("score-label");
+        if (scoreLabel == null){
+            Debug.LogError("Não encontrei o Label 'score-label' no UXML.", this);
             initializationRoutine = null;
-            enabled = false;
             yield break;
         }
-
         scoreSystem.ScoreChanged += UpdateDisplay;
+        isSubscribed = true;
         UpdateDisplay(scoreSystem.CurrentScore);
         initializationRoutine = null;
     }
-
-    private void OnDisable()
-    {
-        if (initializationRoutine != null)
-        {
+    private void OnDisable(){
+        if (initializationRoutine != null){
             StopCoroutine(initializationRoutine);
             initializationRoutine = null;
         }
-
-        if (scoreSystem != null)
-        {
+        if (isSubscribed && scoreSystem != null){
             scoreSystem.ScoreChanged -= UpdateDisplay;
+            isSubscribed = false;
         }
     }
 
-    private void UpdateDisplay(int value)
-    {
+    private void UpdateDisplay(int value){
         if (scoreLabel != null)
         {
             scoreLabel.text = $"Pontuação: {value}";

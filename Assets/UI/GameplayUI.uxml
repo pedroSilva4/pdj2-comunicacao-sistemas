@@ -6,8 +6,7 @@
         <ui:Label tabindex="-1" text="Foste derrotado!" parse-escape-sequences="true" display-tooltip-when-elided="true" class="game-over-subtitle"/>
     </ui:VisualElement>
     <ui:Label text="Pontuação: 0" name="score-label"/>
-    <ui:VisualElement name="victory-panel" class="victory-panel">
-        <ui:Label text="VITÓRIA!" class="victory-title"/>
-        <ui:Label text="Conseguiste atravessar a porta." class="victory-subtitle"/>
+    <ui:VisualElement name="win-panel" enabled="true" focusable="false" class="win-panel">
+        <ui:Label tabindex="-1" text="You Win" parse-escape-sequences="true" display-tooltip-when-elided="true" class="win-panel" style="color: rgb(255, 214, 0); -unity-font-style: bold; height: 453px; font-size: 140px;"/>
     </ui:VisualElement>
 </ui:UXML>

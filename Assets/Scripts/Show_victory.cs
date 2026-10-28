@@ -3,18 +3,19 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
-public class VictoryScreen : MonoBehaviour
+public class Show_Victory : MonoBehaviour
 {
-    [SerializeField] private ScoreDoor scoreDoor;
+    [SerializeField] private ScoreDoor door;
 
     private VisualElement victoryPanel;
     private Coroutine initializationRoutine;
+    private bool isSubscribed;
 
     private void OnEnable()
     {
-        if (scoreDoor == null)
+        if (door == null)
         {
-            Debug.LogError("Atribui a ScoreDoor ao VictoryScreen.", this);
+            Debug.LogError("Atribui a ScoreDoor ao VictoryScreen no Inspector.", this);
             enabled = false;
             return;
         }
@@ -26,18 +27,19 @@ public class VictoryScreen : MonoBehaviour
     {
         yield return null;
 
-        UIDocument uiDocument = GetComponent<UIDocument>();
-        victoryPanel = uiDocument.rootVisualElement.Q<VisualElement>("victory-panel");
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        victoryPanel = root.Q<VisualElement>("win-panel");
+
         if (victoryPanel == null)
         {
-            Debug.LogError("Confirma que existe um VisualElement chamado 'victory-panel' no UXML.", this);
+            Debug.LogError("Não encontro o elemento 'win-panel' no UXML.", this);
             initializationRoutine = null;
-            enabled = false;
             yield break;
         }
 
         victoryPanel.style.display = DisplayStyle.None;
-        scoreDoor.OnDoorEntered += ShowVictory;
+        door.OnDoorEntered += ShowVictory;
+        isSubscribed = true;
         initializationRoutine = null;
     }
 
@@ -49,9 +51,10 @@ public class VictoryScreen : MonoBehaviour
             initializationRoutine = null;
         }
 
-        if (scoreDoor != null)
+        if (isSubscribed && door != null)
         {
-            scoreDoor.OnDoorEntered -= ShowVictory;
+            door.OnDoorEntered -= ShowVictory;
+            isSubscribed = false;
         }
     }
 
