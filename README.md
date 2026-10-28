@@ -1,3 +1,5 @@
+Adicionei uma alteração nesta primeira linha do ficheiro!
+
 # Aula 4 — Projeto de arranque
 
 Este ficheiro é apenas um guia rápido para abrir o projeto; **não substitui

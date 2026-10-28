@@ -42,7 +42,9 @@ public class ScoreDoor : MonoBehaviour
         {
             return;
         }
-
+        opened = true;
+        doorCollider.isTrigger = true;
+        doorRenderer.enabled = false;
         // TODO: marcar a porta como aberta, transformar o collider em trigger
         // e desativar o MeshRenderer sem desativar o GameObject.
     }
