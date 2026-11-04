@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,7 +7,6 @@ public class ScoreDisplay : MonoBehaviour
     [SerializeField] private ScoreSystem scoreSystem;
 
     private Label scoreLabel;
-    private Coroutine initializationRoutine;
 
     private void OnEnable()
     {
@@ -19,36 +17,24 @@ public class ScoreDisplay : MonoBehaviour
             return;
         }
 
-        initializationRoutine = StartCoroutine(InitializeWhenReady());
-    }
-
-    private IEnumerator InitializeWhenReady()
-    {
-        yield return null;
-
         UIDocument uiDocument = GetComponent<UIDocument>();
-        scoreLabel = uiDocument.rootVisualElement.Q<Label>("score-label");
+        if (uiDocument != null && uiDocument.rootVisualElement != null)
+        {
+            scoreLabel = uiDocument.rootVisualElement.Q<Label>("score-label");
+        }
+
         if (scoreLabel == null)
         {
-            Debug.LogError("Confirma que existe um Label chamado 'score-label' no UXML.", this);
-            initializationRoutine = null;
-            enabled = false;
-            yield break;
+            Debug.LogError("Não foi encontrado nenhum Label com o nome 'score-label' no UI Document.", this);
         }
 
         scoreSystem.ScoreChanged += UpdateDisplay;
+
         UpdateDisplay(scoreSystem.CurrentScore);
-        initializationRoutine = null;
     }
 
     private void OnDisable()
     {
-        if (initializationRoutine != null)
-        {
-            StopCoroutine(initializationRoutine);
-            initializationRoutine = null;
-        }
-
         if (scoreSystem != null)
         {
             scoreSystem.ScoreChanged -= UpdateDisplay;

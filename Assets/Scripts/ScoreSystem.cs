@@ -18,6 +18,7 @@ public class ScoreSystem : MonoBehaviour
         }
 
         score += amount;
+
         ScoreChanged?.Invoke(score);
     }
 }

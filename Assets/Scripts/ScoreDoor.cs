@@ -29,6 +29,7 @@ public class ScoreDoor : MonoBehaviour
         }
 
         scoreSystem.ScoreChanged += CheckScore;
+
         CheckScore(scoreSystem.CurrentScore);
     }
 
@@ -48,17 +49,21 @@ public class ScoreDoor : MonoBehaviour
         }
 
         opened = true;
+
         doorCollider.isTrigger = true;
         doorRenderer.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!opened || !other.CompareTag("Player"))
+        if (!opened)
         {
             return;
         }
 
-        OnDoorEntered?.Invoke();
+        if (other.CompareTag("Player") || other.transform.root.CompareTag("Player"))
+        {
+            OnDoorEntered?.Invoke();
+        }
     }
 }

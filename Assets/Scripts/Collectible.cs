@@ -20,14 +20,9 @@ public class Collectible : MonoBehaviour, IInteractable
             return;
         }
 
-        if (points <= 0)
-        {
-            Debug.LogError("Os pontos do Collectible têm de ser positivos.", this);
-            return;
-        }
+        scoreSystem.AddPoints(points);
 
         collected = true;
-        scoreSystem.AddPoints(points);
         gameObject.SetActive(false);
     }
 }
