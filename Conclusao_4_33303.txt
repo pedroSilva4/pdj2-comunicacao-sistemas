@@ -1,0 +1,7 @@
+Quando o jogador interage com os itens, é utilizada a interface IInteractable. 
+
+O ScoreSystem é o responsável por atualizar a pontuação, depois o ScoreDisplay atualiza o HUD e a ScoreDoor verifica se atingiu o objetivo de pontos para abrir.
+
+Ao desativar o ScoreDisplay, a pontuação continua a aumentar e a porta abre ao atingir o valor necessário, mesmo sem o HUD os sistemas continuam a funcionar de forma autónoma.
+
+O ScoreSystem está adequada para cenários locais, um Singleton global iria misturar os dados caso existissem múltiplas salas com pontuações próprias. 
